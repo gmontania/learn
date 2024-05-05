@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de dolar</title>
+</head>
+
+<body>
+    <h2>Descubra agora o valor da taxa do câmbio hoje.</h2>
+    <h3 style="font-family: Cochin;">Hoje o visto custa U$D 185.</h3>
+    <h4 style="font-family: Cochin;">Deseja saber quantos reais precisa investir para sacar o visto americano?</h4>
+    <p id="st" style="font-size: 50px; color: purple;"></p><br> 
+    <input type="button" onclick="exibirDados()" id="click" value="Saiba a cotação atual"> <input type="button" onclick="botaoDois()" id="clickmult" value="Solicitar a conversão">
+    <p style="font-family: Arial; font-size: 42px;" id="soma"></p>
+
+    <script>
+        var recebeCot = 0;
+
+        function buscarDados() {
+            const apiUrl = "https://economia.awesomeapi.com.br/json/last/USD";
+        fetch(apiUrl)
+            .then(response => {
+                if (!response.ok){
+                    throw new Error('Network response not ok');
+                }
+                return response.json();
+            })
+            .then(userData => {
+                recebeCot = userData.USDBRL.high;
+                console.log('User Data:', userData);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            })
+        };
+        function exibirDados() {
+            console.log(recebeCot);
+            document.getElementById("st").innerText = "U$D " + recebeCot;
+        };
+        function botaoDois() {
+            var soma = (185*recebeCot);
+        document.getElementById("soma").innerText = "Você precisará investir R$ " + soma.toFixed(2) + " reais.";
+        };
+        function gas(){
+
+        }
+        function load() {
+            buscarDados();
+            gas();
+        };
+        window.onload = load;
+
+    </script>
+
+</body>
+
+</html>
